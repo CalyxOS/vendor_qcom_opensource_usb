@@ -9,3 +9,12 @@ service vendor.usb-hal /vendor/bin/hw/android.hardware.usb-service.qti
     class hal
     user system
     group system mtp usb
+
+on early-init
+    # Needed to allow toggling USB without being root.
+    chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
+    chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
+    chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
+    chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
+    # Disable USB data initially, even with existing connected device.
+    write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
