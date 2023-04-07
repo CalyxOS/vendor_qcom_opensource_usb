@@ -18,3 +18,9 @@ on early-init
     chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
     # Disable USB data initially, even with existing connected device.
     write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
+
+service enable_usb_data /vendor/bin/init.enable_usb_data.sh /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 1 /sys/class/typec/port0-partner /sys/class/typec/port0/data_role [host] /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode host peripheral
+    disabled
+    user nobody
+    group system
+    oneshot
