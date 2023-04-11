@@ -20,6 +20,7 @@
 #define LOG_TAG "android.hardware.usb@1.3-service-qti"
 
 #include <android-base/logging.h>
+#include <android-base/strings.h>
 #include <assert.h>
 #include <chrono>
 #include <dirent.h>
@@ -481,12 +482,35 @@ bool canSwitchRoleHelper(const std::string &portName, PortRoleType /*type*/) {
   return false;
 }
 
+Status getUsbDataEnabledHelper(struct Usb *usb) {
+  std::string enabled;
+
+  if (!readFile(mDevicePath + USB_DATA_PATH, &enabled)) {
+    ALOGE("Failed to open usb_data_enabled");
+    return Status::ERROR;
+  }
+
+  enabled = Trim(enabled);
+  if (enabled == "enabled") {
+    usb->mUsbDataEnabled = true;
+  } else if (enabled == "disabled") {
+    usb->mUsbDataEnabled = false;
+  } else {
+    ALOGE("Unknown usb_data_enabled state '%s'; not updating", enabled.c_str());
+    return Status::ERROR;
+  }
+
+  ALOGI("mUsbDataEnabled:%d", usb->mUsbDataEnabled ? 1 : 0);
+  return Status::SUCCESS;
+}
+
 /*
  * The caller of this method would reconstruct the V1_0::PortStatus
  * object if required.
  */
 Status getPortStatusHelper(hidl_vec<PortStatus> *currentPortStatus_1_2,
     bool V1_0, struct Usb *usb) {
+  getUsbDataEnabledHelper(usb);
   std::unordered_map<std::string, bool> names;
   Status result = getTypeCPortNamesHelper(&names);
   int i = -1;
