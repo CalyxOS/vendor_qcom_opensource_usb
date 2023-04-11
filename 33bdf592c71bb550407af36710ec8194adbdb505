@@ -16,6 +16,23 @@
       "message": "Not tested at all",
       "revId": "33bdf592c71bb550407af36710ec8194adbdb505",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf23e19_1b345355",
+        "filename": "hal/Usb.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2023-04-11T19:59:06Z",
+      "side": 1,
+      "message": "0 is success",
+      "revId": "33bdf592c71bb550407af36710ec8194adbdb505",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
