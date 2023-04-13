@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4540186b_c38d8a91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2023-04-13T13:45:42Z",
+      "side": 1,
+      "message": "It doesn\u0027t even have mUsbDataEnabled",
+      "revId": "26c3859b6dba2d65081f9c222929568b296f0d6a",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
