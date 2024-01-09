@@ -34,22 +34,14 @@ service vendor.usb-hal-1-3 /vendor/bin/hw/android.hardware.usb@1.3-service-qti
     user root
     group root system mtp
 
-on post-fs
-    # Needed to allow reactivating USB without running script as root.
+on early-init
+    # Needed to allow toggling USB without being root.
     chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
     chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
     chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
     chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
-
-service disable_usb_data /system/bin/bootstrap/linkerconfig --help
-    # This service runs a command that does effectively nothing. The real action happens in
-    # onrestart. init.rc starts, restarts, and stops this service. This way we don't need a
-    # separate script/binary and sepolicy to perform this very simple action.
-    onrestart write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
-    # User and group below are for the service command itself, not the line above.
-    user nobody
-    group nobody
-    oneshot
+    # Disable USB data initially, even with existing connected device.
+    write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
 
 service enable_usb_data /system/bin/bootstrap/linkerconfig --help
     # This could be a normal service, but for flexibility, as above, it is structured to run
