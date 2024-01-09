@@ -34,22 +34,24 @@ service vendor.usb-hal-1-3 /vendor/bin/hw/android.hardware.usb@1.3-service-qti
     user root
     group root system mtp
 
-on post-fs
-    # Needed to allow reactivating USB without running script as root.
+on early-init
+    # Needed to allow toggling USB without being root.
     chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
-    chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
+    chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/id
+    chown root system /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/b_sess
     chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled
-    chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode
-
-service disable_usb_data /system/bin/bootstrap/linkerconfig --help
-    # This service runs a command that does effectively nothing. The real action happens in
-    # onrestart. init.rc starts, restarts, and stops this service. This way we don't need a
-    # separate script/binary and sepolicy to perform this very simple action.
-    onrestart write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
-    # User and group below are for the service command itself, not the line above.
-    user nobody
-    group nobody
-    oneshot
+    chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/id
+    chmod 664 /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/b_sess
+    # Disable USB data initially, even with existing connected device.
+    # See hal Usb.h and Usb.cpp. Match enableUsbDataSignal behavior when possible.
+    # ID_PATH to 1 (required when an OTG device is attached; otherwise apparently optional)
+    write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/id 1
+    # VBUS_PATH to 0 (required when an OTG device is attached; otherwise apparently optional)
+    write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/b_sess 0
+    # USB_DATA_PATH to 0 (required always)
+    write /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 0
+    # PULLUP_PATH to none
+    write /config/usb_gadget/g1/UDC none
 
 service enable_usb_data /system/bin/bootstrap/linkerconfig --help
     # This could be a normal service, but for flexibility, as above, it is structured to run
