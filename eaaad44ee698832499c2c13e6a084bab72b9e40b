@@ -16,6 +16,24 @@
       "message": "Do you know if it works for `user` to remain `nobody`?",
       "revId": "eaaad44ee698832499c2c13e6a084bab72b9e40b",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fba322a_0091d29e",
+        "filename": "hal/android.hardware.usb-service.qti.rc",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-01-16T23:02:04Z",
+      "side": 1,
+      "message": "I haven\u0027t tested it but it should be easy, since it completely breaks USB if it doesn\u0027t work",
+      "parentUuid": "91cfe1a5_6b230247",
+      "revId": "eaaad44ee698832499c2c13e6a084bab72b9e40b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
