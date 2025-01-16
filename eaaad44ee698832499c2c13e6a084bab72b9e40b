@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91cfe1a5_6b230247",
+        "filename": "hal/android.hardware.usb-service.qti.rc",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2025-01-16T12:39:50Z",
+      "side": 1,
+      "message": "Do you know if it works for `user` to remain `nobody`?",
+      "revId": "eaaad44ee698832499c2c13e6a084bab72b9e40b",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
