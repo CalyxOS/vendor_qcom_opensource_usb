@@ -17,6 +17,6 @@ service vendor.usb-hal /vendor/bin/hw/android.hardware.usb-service.qti
 
 service enable_usb_data /vendor/bin/init.enable_usb_data.sh /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/usb_data_enabled 1 /sys/class/typec/port0-partner /sys/class/typec/port0/data_role [host] /sys/devices/platform/soc/${vendor.usb.device:-a600000.ssusb}/mode host peripheral
     disabled
-    user nobody
-    group system
+    user system
+    group system usb
     oneshot
